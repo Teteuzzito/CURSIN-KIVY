@@ -1,13 +1,39 @@
+from kivy.uix.behaviors import ButtonBehavior
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
+from kivy.uix.label import Label
+from kivy.uix.behaviors.button import ButtonBehavior
+from kivy.graphics import Color, Ellipse, Rectangle
 
 class Gerenciador(ScreenManager):
     pass
 
 class Menu(Screen):
     pass
+class Botao(ButtonBehavior, Label):
+    def __init__(self, **kwargs):
+        super(Botao, self).__init__(**kwargs)
+        self.atualizar()
+
+    def on_pos(self, *args):
+        self.atualizar()
+
+    def on_size(self, *args):
+        self.atualizar()
+
+    def atualizar(self, *args):
+        self.canvas.before.clear()
+        with self.canvas.before:
+            Color(rgba=(0.1, 0.5, 0.7, 1))
+            Ellipse(size=(self.height, self.height),
+                    pos= self.pos)
+            Ellipse(size=(self.height, self.height),
+                    pos=(self.x + self.width - self.height, self.y))
+            Rectangle(size=(self.width  -self.height, self.height),
+                      pos=(self.x + self.height / 2, self.y))
+
 
 class Tarefas(Screen):
     def __init__(self, tarefas=[], **kwargs):
